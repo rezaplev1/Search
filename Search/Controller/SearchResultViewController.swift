@@ -1,20 +1,27 @@
 import UIKit
 import SDWebImage
 
+private enum Constants {
+    static let TitleVc = "Search"
+    static let IdentifierCell = "ProductCell"
+    static let CloseTitle = "tutup"
+    static let ResetTitle = "Reset"
+    static let HeightCell : CGFloat = 260
+}
 class SearchResultViewController: UIViewController, CoreApiDelegate, FilterViewDelegate {
     
     @IBOutlet weak var productCollectionView: UICollectionView!
     
-    private let heightCell : CGFloat = 260
     
     var searchApi = SearchApi()
     var products : [DatumElement] = []
     let filtervc = FilterViewController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Search"
+        title = Constants.TitleVc
         // Do any additional setup after loading the view.
-        productCollectionView.register(UINib(nibName: "ProductCell", bundle: nil), forCellWithReuseIdentifier: "ProductCell")
+        productCollectionView.register(UINib(nibName: Constants.IdentifierCell, bundle: nil), forCellWithReuseIdentifier: Constants.IdentifierCell)
         searchApi.delegate = self
         filtervc.delegate = self
         lazyLoadState()
@@ -41,7 +48,6 @@ class SearchResultViewController: UIViewController, CoreApiDelegate, FilterViewD
         products.removeAll()
         lazyLoadState()
     }
-
     
     // MARK: - CoreApiDelegate
     func finish(interFace: CoreApi, responseHeaders: HTTPURLResponse, data: Data) {
@@ -52,19 +58,19 @@ class SearchResultViewController: UIViewController, CoreApiDelegate, FilterViewD
             print(products)
             productCollectionView.reloadData()
         }catch{
-            simpleAlert(message: "Terjadi Kesalahan")
         }
     }
     
 }
 
 extension SearchResultViewController: UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return products.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let productCell : ProductCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductCell", for: indexPath) as! ProductCell
+        let productCell : ProductCell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.IdentifierCell, for: indexPath) as! ProductCell
         
         let product = self.products[indexPath.row]
         let imageUrl = URL(string: (product.imageURI ?? ""))
@@ -73,10 +79,8 @@ extension SearchResultViewController: UICollectionViewDataSource {
         productCell.price.text = product.price
         return productCell
     }
-    
-
-    
 }
+
 extension SearchResultViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if indexPath.row == self.products.count - 1 {
@@ -87,6 +91,6 @@ extension SearchResultViewController: UICollectionViewDelegate {
 
 extension SearchResultViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (self.productCollectionView.frame.width / 2), height: heightCell) // The size of one cell
+        return CGSize(width: (self.productCollectionView.frame.width / 2), height: Constants.HeightCell) // The size of one cell
     }
 }

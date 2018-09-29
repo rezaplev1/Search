@@ -9,9 +9,12 @@
 import UIKit
 
 private enum Constants {
-    static let FirstSectionTitle = "Shop Type"
+    static let TitleVc = "Shop Type"
     static let GoldMerchant = "Gold Merchant"
     static let OfficialStore = "Official Store"
+    static let IdentifierCell = "Cell"
+    static let CloseTitle = "tutup"
+    static let ResetTitle = "Reset"
 }
 
 protocol ShopTypeViewDelegate : class {
@@ -27,13 +30,13 @@ class ShopTypeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = Constants.FirstSectionTitle
+        title = Constants.TitleVc
         // Do any additional setup after loading the view.
-        tableView.register(UITableViewCell.self,forCellReuseIdentifier: "Cell")
+        tableView.register(UITableViewCell.self,forCellReuseIdentifier: Constants.IdentifierCell)
         tableView.rowHeight = UITableView.automaticDimension;
         tableView.tableFooterView = UIView()
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "tutup", style: .plain, target: self, action: #selector(self.closeAction))
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Reset", style: .plain, target: self, action: #selector(self.resetShopTypeAction))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: Constants.CloseTitle, style: .plain, target: self, action: #selector(self.closeAction))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: Constants.ResetTitle, style: .plain, target: self, action: #selector(self.resetShopTypeAction))
 
     }
 
@@ -67,7 +70,7 @@ extension ShopTypeViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView,cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell",for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.IdentifierCell,for: indexPath)
         cell.accessoryType = .none
         cell.textLabel?.text = self.itemsToLoad[indexPath.row]
         return cell

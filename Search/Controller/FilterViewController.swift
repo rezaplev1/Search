@@ -8,6 +8,12 @@
 
 import UIKit
 
+private enum Constants {
+    static let TitleVc = "Filter"
+    static let CloseTitle = "tutup"
+    static let ResetTitle = "Reset"
+}
+
 protocol FilterViewDelegate : class {
     func searchFilter(maxPrice: String, minPrice: String, isWholeSale: Bool, isOfficial: Bool, fShop: String)
 }
@@ -31,15 +37,12 @@ class FilterViewController: UIViewController, ShopTypeViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Filter"
+        title = Constants.TitleVc
         
         shopTypevc.delegate = self
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "tutup", style: .plain, target: self, action: #selector(self.closeAction))
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Reset", style: .plain, target: self, action: #selector(self.resetFilterAction))
-        
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: Constants.CloseTitle, style: .plain, target: self, action: #selector(self.closeAction))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: Constants.ResetTitle, style: .plain, target: self, action: #selector(self.resetFilterAction))
         setupView()
-        
-
     }
     
     private func setupView(){

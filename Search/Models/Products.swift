@@ -106,7 +106,6 @@ struct Shop: Codable {
     let name: String?
     let uri: String?
     let isGold: Int?
-    let rating: JSONNull?
     let location: String?
     let reputationImageURI, shopLucky: String?
     let city: String?
@@ -114,7 +113,7 @@ struct Shop: Codable {
     enum CodingKeys: String, CodingKey {
         case id, name, uri
         case isGold = "is_gold"
-        case rating, location
+        case location
         case reputationImageURI = "reputation_image_uri"
         case shopLucky = "shop_lucky"
         case city
@@ -136,14 +135,12 @@ struct Header: Codable {
     let totalData, totalDataNoCategory: Int?
     let additionalParams: String?
     let processTime: Double?
-    let suggestionInstead: JSONNull?
     
     enum CodingKeys: String, CodingKey {
         case totalData = "total_data"
         case totalDataNoCategory = "total_data_no_category"
         case additionalParams = "additional_params"
         case processTime = "process_time"
-        case suggestionInstead = "suggestion_instead"
     }
 }
 
