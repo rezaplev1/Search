@@ -9,59 +9,137 @@
 import UIKit
 
 protocol FilterViewDelegate : class {
-    func searchFilter(_ filterSearchApi: SearchApi)
+    func searchFilter(maxPrice: String, minPrice: String, isWholeSale: Bool, isOfficial: Bool, fShop: String)
 }
 
-class FilterViewController: UIViewController {
-
+class FilterViewController: UIViewController, ShopTypeViewDelegate {
+   
     weak var delegate: FilterViewDelegate?
     @IBOutlet weak var minPriceLbl: UILabel!
     @IBOutlet weak var maxPriceLbl: UILabel!
     
-    @IBOutlet weak var priceSlider: UISlider!
+    @IBOutlet weak var maxPriceSlider: UISlider!
+    @IBOutlet weak var minPriceSlider: UISlider!
     @IBOutlet weak var goldMerchantBtn: UIButton!
     @IBOutlet weak var officialSotreBtn: UIButton!
+    @IBOutlet weak var wholeSaleSwitch: UISwitch!
     
-    var searchApi = SearchApi()
+    var isWholeSale = false
+    var isOfficial = false
+    var fShop = ""
+    let shopTypevc = ShopTypeViewController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Filter"
         
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "X", style: .plain, target: self, action: #selector(self.didTapCloseButton))
-        priceSlider.addTarget(self, action: #selector(stateChanged),for: .valueChanged)
-        priceSlider.minimumValue = 10000
-        priceSlider.maximumValue = 10000000
-        minPriceLbl.text = String(priceSlider.minimumValue)
-        maxPriceLbl.text = String(priceSlider.maximumValue)
+        shopTypevc.delegate = self
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "tutup", style: .plain, target: self, action: #selector(self.closeAction))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Reset", style: .plain, target: self, action: #selector(self.resetFilterAction))
+        
+        setupView()
+        
 
-
-        // Do any additional setup after loading the view.
     }
-    @objc func didTapCloseButton(){
+    
+    private func setupView(){
+        goldMerchantBtn.addTarget(self, action: #selector(goldMerchantAction), for: .touchUpInside)
+        officialSotreBtn.addTarget(self, action: #selector(officialSotreAction), for: .touchUpInside)
+        wholeSaleSwitch.addTarget(self, action: #selector(stateChanged), for: .valueChanged)
+        minPriceSlider.addTarget(self, action: #selector(minPriceSliderAction),for: .valueChanged)
+        minPriceSlider.minimumValue = Constant.MinimumValue
+        minPriceSlider.maximumValue = Constant.MaximumValue
+        minPriceSlider.value = Constant.MinimumValue
+        minPriceLbl.text = String(minPriceSlider.minimumValue).toIDR()
+        
+        maxPriceSlider.addTarget(self, action: #selector(maxPriceSliderAction),for: .valueChanged)
+        maxPriceSlider.minimumValue = Constant.MinimumValue
+        maxPriceSlider.maximumValue = Constant.MaximumValue
+        maxPriceSlider.value = Constant.MaximumValue
+        maxPriceLbl.text = String(maxPriceSlider.maximumValue).toIDR()
+        isWholeSale = false
+        resetShopType()
+        
+    }
+    
+    func shopTypeFilter(itemSelected: [String]) {
+        resetShopType()
+        for item in itemSelected {
+            if officialSotreBtn.currentTitle?.contains(item) ?? false{
+                officialSotreBtn.backgroundColor = .green
+                officialSotreBtn.tintColor = .white
+                isOfficial = true
+            }
+            if goldMerchantBtn.currentTitle?.contains(item) ?? false{
+                goldMerchantBtn.backgroundColor = .green
+                goldMerchantBtn.tintColor = .white
+                fShop = "2"
+            }
+            
+        }
+    }
+
+    private func resetShopType(){
+        isOfficial = false
+        fShop = ""
+        officialSotreBtn.backgroundColor = .gray
+        officialSotreBtn.tintColor = .white
+        goldMerchantBtn.backgroundColor = .gray
+        goldMerchantBtn.tintColor = .white
+    }
+    
+    @objc func goldMerchantAction(sender: UIButton) {
+        goldMerchantBtn.backgroundColor = .gray
+        goldMerchantBtn.tintColor = .white
+        fShop = ""
+    }
+    
+    @objc func officialSotreAction(sender: UIButton) {
+        isOfficial = false
+        officialSotreBtn.backgroundColor = .gray
+        officialSotreBtn.tintColor = .white
+    }
+    
+    @objc func closeAction(){
         self.dismiss(animated: true, completion: nil)
     }
     
-    @objc func stateChanged(sliderState: UISlider) {
-        minPriceLbl.text = String(sliderState.minimumValue)
-        maxPriceLbl.text = String(sliderState.value)
-    }
-
-    @IBAction func isWholeSale(_ sender: UISwitch) {
-        if sender.isOn {
-            sender.setOn(false, animated:true)
-            searchApi.wholesale = false
-        } else {
-            sender.setOn(true, animated:true)
-            searchApi.wholesale = true
-        }
-    }
-    
-    @IBAction func goToshopTypeList(_ sender: Any) {
+    @objc func resetFilterAction(){
+        minPriceSlider.value = Constant.MinimumValue
+        minPriceLbl.text = String(minPriceSlider.minimumValue).toIDR()
+        maxPriceSlider.value = Constant.MaximumValue
+        maxPriceLbl.text = String(maxPriceSlider.maximumValue).toIDR()
+        wholeSaleSwitch.setOn(false, animated: true)
         
     }
     
+    @objc func minPriceSliderAction(sliderState: UISlider) {
+        minPriceLbl.text = String(sliderState.value).toIDR()
+    }
+    
+    @objc func maxPriceSliderAction(sliderState: UISlider) {
+        maxPriceLbl.text = String(sliderState.value).toIDR()
+    }
+
+    @objc func stateChanged(_ sender: UISwitch) {
+        if sender.isOn {
+            sender.setOn(false, animated:true)
+            isWholeSale = false
+        } else {
+            sender.setOn(true, animated:true)
+            isWholeSale = true
+        }
+    }
+
+    
+    @IBAction func goToshopTypeList(_ sender: UIButton) {
+        let nav = UINavigationController(rootViewController: shopTypevc)
+        self.present(nav, animated: true, completion: nil)
+    }
+    
     @IBAction func applyAction(_ sender: UIButton) {
-        delegate?.searchFilter(searchApi)
-        didTapCloseButton()
+        delegate?.searchFilter(maxPrice: String(maxPriceSlider.value), minPrice: String(minPriceSlider.value), isWholeSale: isWholeSale, isOfficial: isOfficial, fShop: fShop)
+        closeAction()
     }
     
 }

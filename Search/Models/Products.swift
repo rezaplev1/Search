@@ -43,8 +43,6 @@ struct DatumElement: Codable {
     let wholesalePrice: [WholesalePrice]?
     let condition, preorder, departmentID, rating: Int?
     let isFeatured, countReview, countTalk, countSold: Int?
-    let labels: [Label]?
-    let topLabel, bottomLabel: JSONNull?
     let originalPrice, discountExpired, discountStart: String?
     let discountPercentage, stock: Int?
     
@@ -64,9 +62,6 @@ struct DatumElement: Codable {
         case countReview = "count_review"
         case countTalk = "count_talk"
         case countSold = "count_sold"
-        case labels
-        case topLabel = "top_label"
-        case bottomLabel = "bottom_label"
         case originalPrice = "original_price"
         case discountExpired = "discount_expired"
         case discountStart = "discount_start"

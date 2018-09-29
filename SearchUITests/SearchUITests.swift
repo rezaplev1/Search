@@ -30,5 +30,13 @@ class SearchUITests: XCTestCase {
         // Use recording to get started writing UI tests.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
+    
+    func testGoToFilterVc(){
+        
+        let app = XCUIApplication()
+        app.buttons["Filter"].tap()
+        app.navigationBars["Filter"].buttons["tutup"].tap()
+        
+    }
 
 }

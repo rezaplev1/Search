@@ -3,28 +3,26 @@ import SDWebImage
 
 class SearchResultViewController: UIViewController, CoreApiDelegate, FilterViewDelegate {
     
-    
     @IBOutlet weak var productCollectionView: UICollectionView!
     
     private let heightCell : CGFloat = 260
     
     var searchApi = SearchApi()
     var products : [DatumElement] = []
+    let filtervc = FilterViewController()
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Search"
         // Do any additional setup after loading the view.
         productCollectionView.register(UINib(nibName: "ProductCell", bundle: nil), forCellWithReuseIdentifier: "ProductCell")
-//        productCollectionView.contentInset = UIEdgeInsets(top: 6, left: 6, bottom: 6, right: 6)
         searchApi.delegate = self
+        filtervc.delegate = self
         lazyLoadState()
         
     }
 
     @IBAction func filterAction(_ sender: UIButton) {
-        let vc = FilterViewController()
-        vc.delegate = self
-        let nav = UINavigationController(rootViewController: vc)
+        let nav = UINavigationController(rootViewController: filtervc)
         self.present(nav, animated: true, completion: nil)
     }
     
@@ -34,9 +32,12 @@ class SearchResultViewController: UIViewController, CoreApiDelegate, FilterViewD
     }
     
     // MARK: - FilterViewDelegate
-    func searchFilter(_ filterSearchApi: SearchApi) {
-        searchApi = filterSearchApi
-        searchApi.delegate = self
+    func searchFilter(maxPrice: String, minPrice: String, isWholeSale: Bool, isOfficial: Bool, fShop: String) {
+        searchApi.priceMax = maxPrice
+        searchApi.priceMin = minPrice
+        searchApi.wholesale = isWholeSale
+        searchApi.official = isOfficial
+        searchApi.fshop = fShop
         products.removeAll()
         lazyLoadState()
     }
@@ -45,11 +46,14 @@ class SearchResultViewController: UIViewController, CoreApiDelegate, FilterViewD
     // MARK: - CoreApiDelegate
     func finish(interFace: CoreApi, responseHeaders: HTTPURLResponse, data: Data) {
         
-        let listProduct = try! JSONDecoder().decode(Products.self, from: data)
-        products += listProduct.data ?? []
-        print(products)
-        productCollectionView.reloadData()
-
+        do{
+            let listProduct = try JSONDecoder().decode(Products.self, from: data)
+            products += listProduct.data ?? []
+            print(products)
+            productCollectionView.reloadData()
+        }catch{
+            simpleAlert(message: "Terjadi Kesalahan")
+        }
     }
     
 }

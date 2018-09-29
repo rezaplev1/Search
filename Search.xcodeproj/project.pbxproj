@@ -45,6 +45,12 @@
 		1AA32997215E79FE002DBA3F /* FilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AA32993215E79FD002DBA3F /* FilterViewController.xib */; };
 		1AA32998215E79FE002DBA3F /* FilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AA32993215E79FD002DBA3F /* FilterViewController.xib */; };
 		1AA32999215E79FE002DBA3F /* FilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AA32993215E79FD002DBA3F /* FilterViewController.xib */; };
+		1AF52B26215F17630052F1B2 /* ShopTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF52B24215F17630052F1B2 /* ShopTypeViewController.swift */; };
+		1AF52B27215F17630052F1B2 /* ShopTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF52B24215F17630052F1B2 /* ShopTypeViewController.swift */; };
+		1AF52B28215F17630052F1B2 /* ShopTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF52B24215F17630052F1B2 /* ShopTypeViewController.swift */; };
+		1AF52B29215F17630052F1B2 /* ShopTypeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AF52B25215F17630052F1B2 /* ShopTypeViewController.xib */; };
+		1AF52B2A215F17630052F1B2 /* ShopTypeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AF52B25215F17630052F1B2 /* ShopTypeViewController.xib */; };
+		1AF52B2B215F17630052F1B2 /* ShopTypeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AF52B25215F17630052F1B2 /* ShopTypeViewController.xib */; };
 		93BF00FBE5E5EC8515EBEE16 /* Pods_SearchUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DD0861197424842D6A6BB2E /* Pods_SearchUITests.framework */; };
 		A3ECCFF6E3B41CA9F36E0D39 /* Pods_SearchTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C90E976897EFDCCD528340B3 /* Pods_SearchTests.framework */; };
 		ECF3401B0713177114AB45B1 /* Pods_Search.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE01711068BEA8FE5CCF989F /* Pods_Search.framework */; };
@@ -92,6 +98,8 @@
 		1AA3298B215D99F5002DBA3F /* ProductCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProductCell.xib; sourceTree = "<group>"; };
 		1AA32992215E79FD002DBA3F /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		1AA32993215E79FD002DBA3F /* FilterViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterViewController.xib; sourceTree = "<group>"; };
+		1AF52B24215F17630052F1B2 /* ShopTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopTypeViewController.swift; sourceTree = "<group>"; };
+		1AF52B25215F17630052F1B2 /* ShopTypeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShopTypeViewController.xib; sourceTree = "<group>"; };
 		5DD0861197424842D6A6BB2E /* Pods_SearchUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SearchUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E8ADA023EA321AFD0640499 /* Pods-SearchUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SearchUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SearchUITests/Pods-SearchUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		A34DC8B6B2F9330587348B4C /* Pods-Search.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Search.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Search/Pods-Search.debug.xcconfig"; sourceTree = "<group>"; };
@@ -216,6 +224,7 @@
 			children = (
 				1AA32983215D963B002DBA3F /* SearchResultViewController.xib */,
 				1AA32993215E79FD002DBA3F /* FilterViewController.xib */,
+				1AF52B25215F17630052F1B2 /* ShopTypeViewController.xib */,
 				1AA3298A215D99F5002DBA3F /* ProductCell.swift */,
 				1AA3298B215D99F5002DBA3F /* ProductCell.xib */,
 			);
@@ -227,6 +236,7 @@
 			children = (
 				1AA32982215D963B002DBA3F /* SearchResultViewController.swift */,
 				1AA32992215E79FD002DBA3F /* FilterViewController.swift */,
+				1AF52B24215F17630052F1B2 /* ShopTypeViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -367,6 +377,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1AF52B29215F17630052F1B2 /* ShopTypeViewController.xib in Resources */,
 				1AA32997215E79FE002DBA3F /* FilterViewController.xib in Resources */,
 				1AA32946215D8E71002DBA3F /* LaunchScreen.storyboard in Resources */,
 				1AA32943215D8E71002DBA3F /* Assets.xcassets in Resources */,
@@ -381,6 +392,7 @@
 			files = (
 				1AA32988215D963B002DBA3F /* SearchResultViewController.xib in Resources */,
 				1AA32998215E79FE002DBA3F /* FilterViewController.xib in Resources */,
+				1AF52B2A215F17630052F1B2 /* ShopTypeViewController.xib in Resources */,
 				1AA32990215D99F5002DBA3F /* ProductCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -391,6 +403,7 @@
 			files = (
 				1AA32989215D963B002DBA3F /* SearchResultViewController.xib in Resources */,
 				1AA32999215E79FE002DBA3F /* FilterViewController.xib in Resources */,
+				1AF52B2B215F17630052F1B2 /* ShopTypeViewController.xib in Resources */,
 				1AA32991215D99F5002DBA3F /* ProductCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -564,6 +577,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1AF52B26215F17630052F1B2 /* ShopTypeViewController.swift in Sources */,
 				1AA32970215D9444002DBA3F /* Extension.swift in Sources */,
 				1AA3293C215D8E6F002DBA3F /* AppDelegate.swift in Sources */,
 				1AA3297F215D951D002DBA3F /* Products.swift in Sources */,
@@ -580,6 +594,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1AF52B27215F17630052F1B2 /* ShopTypeViewController.swift in Sources */,
 				1AA32951215D8E71002DBA3F /* SearchTests.swift in Sources */,
 				1AA32985215D963B002DBA3F /* SearchResultViewController.swift in Sources */,
 				1AA32971215D9444002DBA3F /* Extension.swift in Sources */,
@@ -596,6 +611,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1AF52B28215F17630052F1B2 /* ShopTypeViewController.swift in Sources */,
 				1AA3295C215D8E71002DBA3F /* SearchUITests.swift in Sources */,
 				1AA32986215D963B002DBA3F /* SearchResultViewController.swift in Sources */,
 				1AA32972215D9444002DBA3F /* Extension.swift in Sources */,
