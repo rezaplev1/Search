@@ -1,160 +1,146 @@
+
 import Foundation
 
-struct Products: Codable {
-    let status: Status?
-    let header: Header?
-    let data: [DatumElement]?
-    let category: Category?
+// MARK: - TimeNews
+struct TimeNews: Codable {
+    let status, copyright: String?
+    let response: Response?
 }
 
-struct Category: Codable {
-    let data: [String: DatumValue]?
-    let selectedID: String?
+// MARK: - Response
+struct Response: Codable {
+    let docs: [Doc]?
+    let meta: Meta?
+}
+
+// MARK: - Doc
+struct Doc: Codable {
+    let webURL: String?
+    let snippet: String?
+    let multimedia: [Multimedia]?
+    let headline: Headline?
+    
+    func getImageUri() -> String {
+        if let image = multimedia?.first, (image.url != nil) {
+            return "\(ConstantsApi.BASE_URL)\(image.url!)"
+        }else{
+           return ""
+        }
+       
+    }
     
     enum CodingKeys: String, CodingKey {
-        case data
-        case selectedID = "selected_id"
+        case webURL = "web_url"
+        case snippet
+        case multimedia
+        case headline
     }
 }
 
-struct DatumValue: Codable {
-    let id: Int?
-    let name, totalData: String?
-    let parentID: Int?
-    let childID: [Int]?
-    let level: Int?
+// MARK: - Blog
+struct Blog: Codable {
+}
+
+// MARK: - Byline
+struct Byline: Codable {
+    let original: String?
+    let person: [Person]?
+    let organization: String?
+}
+
+// MARK: - Person
+struct Person: Codable {
+    let firstname: String?
+    let middlename: String?
+    let lastname: String?
+    let qualifier, title: JSONNull?
+    let role: Role?
+    let organization: String?
+    let rank: Int?
+}
+
+enum Role: String, Codable {
+    case reported = "reported"
+}
+
+enum DocumentType: String, Codable {
+    case article = "article"
+    case paidpost = "paidpost"
+}
+
+// MARK: - Headline
+struct Headline: Codable {
+    let main: String?
+    let kicker: String?
+    let contentKicker: JSONNull?
+    let printHeadline: String?
+    let name, seo, sub: JSONNull?
+    
+    
     
     enum CodingKeys: String, CodingKey {
-        case id, name
-        case totalData = "total_data"
-        case parentID = "parent_id"
-        case childID = "child_id"
-        case level
+        case main, kicker
+        case contentKicker = "content_kicker"
+        case printHeadline = "print_headline"
+        case name, seo, sub
     }
 }
 
-struct DatumElement: Codable {
-    let id: Int?
-    let name: String?
-    let uri: String?
-    let imageURI, imageURI700: String?
-    let price, priceRange, categoryBreadcrumb: String?
-    let shop: Shop?
-    let wholesalePrice: [WholesalePrice]?
-    let condition, preorder, departmentID, rating: Int?
-    let isFeatured, countReview, countTalk, countSold: Int?
-    let originalPrice, discountExpired, discountStart: String?
-    let discountPercentage, stock: Int?
+// MARK: - Keyword
+struct Keyword: Codable {
+    let name: Name?
+    let value: String?
+    let rank: Int?
+    let major: Major?
+}
+
+enum Major: String, Codable {
+    case n = "N"
+}
+
+enum Name: String, Codable {
+    case glocations = "glocations"
+    case organizations = "organizations"
+    case persons = "persons"
+    case subject = "subject"
+}
+
+// MARK: - Multimedia
+struct Multimedia: Codable {
+    let rank: Int?
+    let subtype: String?
+    let caption, credit: JSONNull?
+    let type: TypeEnum?
+    let url: String?
+    let height, width: Int?
+    let legacy: Legacy?
+    let subType, cropName: String?
     
     enum CodingKeys: String, CodingKey {
-        case id, name, uri
-        case imageURI = "image_uri"
-        case imageURI700 = "image_uri_700"
-        case price
-        case priceRange = "price_range"
-        case categoryBreadcrumb = "category_breadcrumb"
-        case shop
-        case wholesalePrice = "wholesale_price"
-        case condition, preorder
-        case departmentID = "department_id"
-        case rating
-        case isFeatured = "is_featured"
-        case countReview = "count_review"
-        case countTalk = "count_talk"
-        case countSold = "count_sold"
-        case originalPrice = "original_price"
-        case discountExpired = "discount_expired"
-        case discountStart = "discount_start"
-        case discountPercentage = "discount_percentage"
-        case stock
+        case rank, subtype, caption, credit, type, url, height, width, legacy, subType
+        case cropName = "crop_name"
     }
 }
 
-struct Badge: Codable {
-    let title: BadgeTitle?
-    let imageURL: String?
-    let show: Bool?
-    
-    enum CodingKeys: String, CodingKey {
-        case title
-        case imageURL = "image_url"
-        case show
-    }
+// MARK: - Legacy
+struct Legacy: Codable {
+    let xlarge: String?
+    let xlargewidth, xlargeheight: Int?
+    let thumbnail: String?
+    let thumbnailwidth, thumbnailheight, widewidth, wideheight: Int?
+    let wide: String?
 }
 
-enum BadgeTitle: String, Codable {
-    case goldMerchant = "Gold Merchant"
+enum TypeEnum: String, Codable {
+    case image = "image"
 }
 
-struct Label: Codable {
-    let title: LabelTitle?
-    let color: Color?
+// MARK: - Meta
+struct Meta: Codable {
+    let hits, offset, time: Int?
 }
 
-enum Color: String, Codable {
-    case ffffff = "#ffffff"
-    case the42B549 = "#42b549"
-}
-
-enum LabelTitle: String, Codable {
-    case cashback5 = "Cashback 5%"
-    case grosir = "Grosir"
-}
-
-struct Shop: Codable {
-    let id: Int?
-    let name: String?
-    let uri: String?
-    let isGold: Int?
-    let location: String?
-    let reputationImageURI, shopLucky: String?
-    let city: String?
-    
-    enum CodingKeys: String, CodingKey {
-        case id, name, uri
-        case isGold = "is_gold"
-        case location
-        case reputationImageURI = "reputation_image_uri"
-        case shopLucky = "shop_lucky"
-        case city
-    }
-}
-
-struct WholesalePrice: Codable {
-    let countMin, countMax: Int?
-    let price: String?
-    
-    enum CodingKeys: String, CodingKey {
-        case countMin = "count_min"
-        case countMax = "count_max"
-        case price
-    }
-}
-
-struct Header: Codable {
-    let totalData, totalDataNoCategory: Int?
-    let additionalParams: String?
-    let processTime: Double?
-    
-    enum CodingKeys: String, CodingKey {
-        case totalData = "total_data"
-        case totalDataNoCategory = "total_data_no_category"
-        case additionalParams = "additional_params"
-        case processTime = "process_time"
-    }
-}
-
-struct Status: Codable {
-    let errorCode: Int?
-    let message: String?
-    
-    enum CodingKeys: String, CodingKey {
-        case errorCode = "error_code"
-        case message
-    }
-}
-
-// MARK: Encode/decode helpers
+// MARK: - Encode/decode helpers
 
 class JSONNull: Codable, Hashable {
     

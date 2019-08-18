@@ -1,8 +1,8 @@
 import Foundation
 
 struct ConstantsApi {
-    static let BASE_URL = "https://ace.tokopedia.com/"
-    static let SEARCH_API = "search/v2.5/product"
+    static let BASE_URL = "https://api.nytimes.com/"
+    static let SEARCH_API = "svc/search/v2/articlesearch.json"
 }
 
 public func server(with api: String) -> String {
@@ -10,7 +10,3 @@ public func server(with api: String) -> String {
     return serverURL
 }
 
-struct Constant {
-    static let MaximumValue: Float = 10000000
-    static let MinimumValue: Float = 100
-}

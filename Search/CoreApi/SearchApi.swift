@@ -1,12 +1,6 @@
 import Foundation
 class SearchApi : CoreApi {
-    var priceMin = ""
-    var priceMax = ""
-    var wholesale = false
-    var official = false
-    var fshop = "2"
-    var skip = "0"
-    var rows = "10"
+    var page = 0
     
     override init () {
         super.init()
@@ -26,14 +20,9 @@ class SearchApi : CoreApi {
     }
     
     override func getParam() -> [String : Any] {
-        let parameters: [String : Any] = [SearchConst.query : "samsung", //hardcode base on task
-                                          SearchConst.priceMin : priceMin,
-                                          SearchConst.pricMax : priceMax,
-                                          SearchConst.wholesale : wholesale,
-                                          SearchConst.official : official,
-                                          SearchConst.fshop : fshop,
-                                          SearchConst.start : skip,
-                                          SearchConst.rows : rows
+        let parameters: [String : Any] = [SearchConst.query : "indonesia", //hardcode base on task
+                                          SearchConst.apiKey : "9b693ffaa5fe451090146e5c90fbed78",
+                                          SearchConst.page : page
         ]
         return parameters
     }
@@ -42,12 +31,7 @@ class SearchApi : CoreApi {
 
 struct SearchConst {
     static let query = "q"
-    static let priceMin = "pmin"
-    static let pricMax = "pmax"
-    static let wholesale = "wholesale"
-    static let official = "official"
-    static let fshop = "fshop"
-    static let start = "start"
-    static let rows = "rows"
+    static let apiKey = "api-key"
+    static let page = "page"
 }
 

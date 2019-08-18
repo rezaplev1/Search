@@ -2,62 +2,58 @@ import UIKit
 import SDWebImage
 
 private enum Constants {
-    static let TitleVc = "Search"
+    static let TitleVc = "News"
     static let IdentifierCell = "ProductCell"
-    static let CloseTitle = "tutup"
-    static let ResetTitle = "Reset"
-    static let HeightCell : CGFloat = 260
+    
 }
-class SearchResultViewController: UIViewController, CoreApiDelegate, FilterViewDelegate {
+class SearchResultViewController: UIViewController, CoreApiDelegate {
     
     @IBOutlet weak var productCollectionView: UICollectionView!
     
+    lazy var collectionViewFlowLayout: CustomCollectionViewFlowLayout = {
+        let layout = CustomCollectionViewFlowLayout(display: .list, containerWidth: self.view.bounds.width)
+        return layout
+    }()
     
     var searchApi = SearchApi()
-    var products : [DatumElement] = []
-    let filtervc = FilterViewController()
+    var products : [Doc] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = Constants.TitleVc
         // Do any additional setup after loading the view.
+        self.productCollectionView.collectionViewLayout = self.collectionViewFlowLayout
+
         productCollectionView.register(UINib(nibName: Constants.IdentifierCell, bundle: nil), forCellWithReuseIdentifier: Constants.IdentifierCell)
         searchApi.delegate = self
-        filtervc.delegate = self
         lazyLoadState()
         
     }
-
-    @IBAction func filterAction(_ sender: UIButton) {
-        let nav = UINavigationController(rootViewController: filtervc)
-        self.present(nav, animated: true, completion: nil)
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        self.reloadCollectionViewLayout(self.view.bounds.size.width)
+    }
+    
+    private func reloadCollectionViewLayout(_ width: CGFloat) {
+        
+        self.collectionViewFlowLayout.containerWidth = width
+        self.collectionViewFlowLayout.display = self.view.traitCollection.horizontalSizeClass == .compact && self.view.traitCollection.verticalSizeClass == .regular ? CollectionDisplay.list : CollectionDisplay.grid(columns: 5)
+        
     }
     
     private func lazyLoadState() {
-        searchApi.skip = String(products.count)
+        searchApi.page = searchApi.page + 1
         searchApi.start()
     }
-    
-    // MARK: - FilterViewDelegate
-    func searchFilter(maxPrice: String, minPrice: String, isWholeSale: Bool, isOfficial: Bool, fShop: String) {
-        searchApi.priceMax = maxPrice
-        searchApi.priceMin = minPrice
-        searchApi.wholesale = isWholeSale
-        searchApi.official = isOfficial
-        searchApi.fshop = fShop
-        products.removeAll()
-        lazyLoadState()
-    }
-    
     // MARK: - CoreApiDelegate
     func finish(interFace: CoreApi, responseHeaders: HTTPURLResponse, data: Data) {
         
         do{
-            let listProduct = try JSONDecoder().decode(Products.self, from: data)
-            products += listProduct.data ?? []
-            print(products)
+            let listProduct = try! JSONDecoder().decode(TimeNews.self, from: data)
+            products += listProduct.response?.docs ?? []
             productCollectionView.reloadData()
         }catch{
+            print("error")
         }
     }
     
@@ -73,10 +69,11 @@ extension SearchResultViewController: UICollectionViewDataSource {
         let productCell : ProductCell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.IdentifierCell, for: indexPath) as! ProductCell
         
         let product = self.products[indexPath.row]
-        let imageUrl = URL(string: (product.imageURI ?? ""))
+        let a = product.getImageUri()
+        let imageUrl = URL(string: (product.getImageUri() ?? ""))
         productCell.image.sd_setImage(with: imageUrl, placeholderImage: nil, options: .highPriority, completed: nil)
-        productCell.name.text = product.name
-        productCell.price.text = product.price
+        productCell.name.text = product.snippet
+        productCell.price.text = product.headline?.main
         return productCell
     }
 }
@@ -86,11 +83,5 @@ extension SearchResultViewController: UICollectionViewDelegate {
         if indexPath.row == self.products.count - 1 {
             lazyLoadState()
         }
-    }
-}
-
-extension SearchResultViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (self.productCollectionView.frame.width / 2), height: Constants.HeightCell) // The size of one cell
     }
 }

@@ -1,11 +1,3 @@
-//
-//  AppDelegate.swift
-//  Search
-//
-//  Created by reza pahlevi on 9/28/18.
-//  Copyright © 2018 tokopedia. All rights reserved.
-//
-
 import UIKit
 
 @UIApplicationMain
